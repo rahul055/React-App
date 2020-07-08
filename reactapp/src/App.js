@@ -17,7 +17,23 @@ class App extends React.Component {
     ]
   }
 
+  userstateHandler = (event) => {
+    this.setState({
+      username: event.target.value,
+    })
+  }
 
+  ToggleuserHandler = () => {
+    let douser = this.state.isuser;
+    this.setState({
+      isuser: !douser,
+    })
+  }
+  DeletepersoneHandler = (PersoneIndex) => {
+    const persones = this.state.persone;
+    persones.splice(PersoneIndex, 1);
+    this.setState({ persone: persones })
+  }
 
   render() {
 
@@ -33,18 +49,6 @@ class App extends React.Component {
       letterSpacing: '2.5px'
     }
 
-    this.userstateHandler = (event) => {
-      this.setState({
-        username: event.target.value,
-      })
-    }
-
-    this.ToggleuserHandler = () => {
-      let douser = this.state.isuser;
-      this.setState({
-        isuser: !douser,
-      })
-    }
 
     let user = null;
 
@@ -53,8 +57,9 @@ class App extends React.Component {
         <div>
           <Input change={this.userstateHandler} name={this.state.username} />
           <Output userName={this.state.username} />
-          {this.state.persone.map((person) => {
-            return <Persones id={person.id}
+          {this.state.persone.map((person, Index) => {
+            return <Persones click={() => this.DeletepersoneHandler(Index)}
+              id={person.id}
               name={person.name}
               age={person.age} />
           })}
