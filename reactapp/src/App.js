@@ -2,25 +2,44 @@ import React, { useState } from 'react';
 import './App.css';
 import Input from './userinput/userinput';
 import Output from './useroutput/useroutput';
+import Persones from './persones/persones';
+import persones from './persones/persones';
 
 class App extends React.Component {
   state = {
     username: 'Rahul',
     isuser: false,
+    persone: [
+      { id: '01', name: 'Rahul', age: 24 },
+      { id: '02', name: 'Rajshree', age: 26 },
+      { id: '03', name: 'Sushil', age: 28 }
+
+    ]
   }
+
 
 
   render() {
 
     // functions...
 
-    userstateHandler = (event) => {
+    this.btnstyle = {
+      backgroundColor: 'orange',
+      border: '1px solid red',
+      padding: '5px',
+      width: '150px',
+      fontSize: '20px',
+      fontWeight: '900',
+      letterSpacing: '2.5px'
+    }
+
+    this.userstateHandler = (event) => {
       this.setState({
         username: event.target.value,
       })
     }
 
-    ToggleuserHandler = () => {
+    this.ToggleuserHandler = () => {
       let douser = this.state.isuser;
       this.setState({
         isuser: !douser,
@@ -30,11 +49,17 @@ class App extends React.Component {
     let user = null;
 
     if (this.state.isuser) {
-      this.user =
+      this.user = (
         <div>
           <Input change={this.userstateHandler} name={this.state.username} />
           <Output userName={this.state.username} />
-        </div>
+          {this.state.persone.map((person) => {
+            return <Persones id={person.id}
+              name={person.name}
+              age={person.age} />
+          })}
+
+        </div>)
     } else {
       this.user = null;
     }
@@ -45,7 +70,7 @@ class App extends React.Component {
       <div className="App" >
         <header className="App-header">
           {this.user}
-          <button onClick={this.ToggleuserHandler} >Toggle</button>
+          <button onClick={this.ToggleuserHandler} style={this.btnstyle}>Toggle</button>
 
         </header>
       </div>
