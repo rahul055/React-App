@@ -6,7 +6,7 @@ const Input = (props) => {
         padding: '8px'
     }
     return (<div>
-        <input type='text' style={style} onChange={props.change} value={props.name} />
+        <input type='text' style={style} onChange={props.change} value={props.name} placeholder='Enter some text' />
     </div>);
 }
 export default Input;

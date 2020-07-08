@@ -7,7 +7,8 @@ import persones from './persones/persones';
 
 class App extends React.Component {
   state = {
-    username: 'Rahul',
+    username: '',
+    text: '',
     isuser: false,
     persone: [
       { id: '01', name: 'Rahul', age: 24 },
@@ -30,23 +31,43 @@ class App extends React.Component {
     })
   }
   DeletepersoneHandler = (PersoneIndex) => {
-    const persones = this.state.persone;
+    // const persones = this.state.persone;
+    const persones = [...this.state.persone]
     persones.splice(PersoneIndex, 1);
     this.setState({ persone: persones })
+  }
+
+
+  changenameHandler = (event, id) => {
+    const personeIndex = this.state.persone.findIndex(p => {
+      return p.id === id
+    })
+    const person = {
+      ...this.state.persone[personeIndex]
+    };
+    person.name = event.target.value;
+
+    const persons = [...this.state.persone];
+
+    persons[personeIndex] = person;
+    this.setState({
+      persone: persons
+    })
   }
 
   render() {
 
     // functions...
 
-    this.btnstyle = {
+    const btnstyle = {
       backgroundColor: 'orange',
       border: '1px solid red',
       padding: '5px',
       width: '150px',
       fontSize: '20px',
       fontWeight: '900',
-      letterSpacing: '2.5px'
+      letterSpacing: '2.5px',
+      marginTop: '10px'
     }
 
 
@@ -59,10 +80,12 @@ class App extends React.Component {
           <Output userName={this.state.username} />
           {this.state.persone.map((person, Index) => {
             return <Persones click={() => this.DeletepersoneHandler(Index)}
-              id={person.id}
+              key={person.id}
+              change={(event) => this.changenameHandler(event, person.id)}
               name={person.name}
               age={person.age} />
           })}
+
 
         </div>)
     } else {
@@ -75,7 +98,7 @@ class App extends React.Component {
       <div className="App" >
         <header className="App-header">
           {this.user}
-          <button onClick={this.ToggleuserHandler} style={this.btnstyle}>Toggle</button>
+          <button onClick={this.ToggleuserHandler} style={btnstyle}>Toggle</button>
 
         </header>
       </div>
