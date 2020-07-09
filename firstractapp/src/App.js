@@ -1,78 +1,45 @@
 import React, { useState } from 'react';
 import './App.css';
-import Persone from './Persone/persone';
-import Input from './Assignment 1/userinput';
-import Output from './Assignment 1/useroutput';
+import Validation from './validation/validation';
+import Char from './char/char'
+class App extends React.Component {
 
-const App = (props) => {
-  const [stateArr, setpersone] = useState({
-    persones: [
-      { name: 'Rahul', age: 24 },
-      { name: 'Sushil', age: 28 },
-      { name: 'Ashwini', age: 23 },
-    ],
-
-  })
-
-
-  const changepersoneState = () => {
-    setpersone(
-      {
-        persones: [
-          { name: 'Sushil', age: 28 },
-          { name: 'Rajshree', age: 26 },
-          { name: 'Rahul', age: 24 },
-        ]
-
-      }
-    )
+  state = {
+    text: '',
   }
 
+  namechangeHandler = (e) => {
+    this.setState({
+      text: e.target.value
+    })
+  }
 
-  let person = null;
+  deleteCharHandler = (charIndex) => {
+    const chars = this.state.text.split('');
+    chars.splice(charIndex, 1);
+    const updatedChar = chars.join('');
+    this.setState({
+      text: updatedChar
+    });
+  }
 
-
-
-  const [mystate, setState] = useState({
-    userop: {
-      name: 'rrjoshi055',
-    },
-  })
-
-  const changestate = (event) => {
-    setState({
-      userop: {
-        name: event.target.value,
-      },
+  render() {
+    const charList = this.state.text.split('').map((ch, Index) => {
+      return <Char charecter={ch} key={Index} click={() => this.deleteCharHandler(Index)} />
     })
 
+    return (
+      <div className='App-header'>
+
+        <input type='text' onChange={this.namechangeHandler} value={this.state.text} />
+
+        <p> {this.state.text} </p>
+
+        <Validation inputLength={this.state.text.length} />
+        {charList}
+      </div>
+    )
   }
-
-  //return function
-
-  return (
-    <div className='app'>
-
-      <div>
-        <Persone name={stateArr.persones[0].name} age={stateArr.persones[0].age} />
-        <Persone
-          name={stateArr.persones[1].name}
-          age={stateArr.persones[1].age}>
-          My hobbie is : coding
-        </Persone>
-        <Persone name={stateArr.persones[2].name} age={stateArr.persones[2].age} />
-
-      </div>
-      <button className='btn' onClick={changepersoneState} >ChangeState</button>
-      <div>
-        <h1 >Two Way Binding using React <strong>Event</strong> parameter</h1>
-        <Input name={mystate.userop.name} change={changestate} />
-        <Output userName={mystate.userop.name} />
-        <Output userName='Rahul' />
-      </div>
-
-    </div>
-  );
 }
 
 export default App;
