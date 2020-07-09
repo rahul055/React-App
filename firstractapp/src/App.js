@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
 import Validation from './validation/validation';
-import Char from './char/char'
+import Char from './char/char';
+
 class App extends React.Component {
 
   state = {
     text: '',
+
   }
 
   namechangeHandler = (e) => {
@@ -37,6 +39,8 @@ class App extends React.Component {
 
         <Validation inputLength={this.state.text.length} />
         {charList}
+
+
       </div>
     )
   }

@@ -4,12 +4,16 @@ import Input from './userinput/userinput';
 import Output from './useroutput/useroutput';
 import Persones from './persones/persones';
 import persones from './persones/persones';
+import Calculator from './CalculatorApp/Calculator';
+import Calcresult from './CalculatorApp/calcresult';
 
 class App extends React.Component {
   state = {
     username: '',
     text: '',
     isuser: false,
+    calcNo: '',
+    iscalc: false,
     persone: [
       { id: '01', name: 'Rahul', age: 24 },
       { id: '02', name: 'Rajshree', age: 26 },
@@ -24,12 +28,16 @@ class App extends React.Component {
     })
   }
 
+
   ToggleuserHandler = () => {
     let douser = this.state.isuser;
+    let notcalc = this.state.iscalc;
     this.setState({
       isuser: !douser,
+      iscalc: !notcalc,
     })
   }
+
   DeletepersoneHandler = (PersoneIndex) => {
     // const persones = this.state.persone;
     const persones = [...this.state.persone]
@@ -55,6 +63,8 @@ class App extends React.Component {
     })
   }
 
+
+
   render() {
 
     // functions...
@@ -70,9 +80,19 @@ class App extends React.Component {
       marginTop: '10px'
     }
 
+    this.keypress = (e) => {
+      if (e.keyCode == 13) {
+        console.log('value', e.target.value);
+        this.setState({
+          calcNo: eval(this.state.calcNo),
+        })
+
+      }
+    }
+
 
     let user = null;
-
+    let showcalc = null;
     if (this.state.isuser) {
       this.user = (
         <div>
@@ -87,9 +107,18 @@ class App extends React.Component {
           })}
 
 
+
         </div>)
+
     } else {
       this.user = null;
+      showcalc = (
+        <div>
+          <Calculator click={ev => this.setState({ calcNo: ev.target.value })} keypress={this.keypress} />
+          <Calcresult opvalue={this.state.calcNo} />
+        </div>
+      );
+
     }
 
     // Return statement...
@@ -100,6 +129,7 @@ class App extends React.Component {
           {this.user}
           <button onClick={this.ToggleuserHandler} style={btnstyle}>Toggle</button>
 
+          {showcalc}
         </header>
       </div>
     );
